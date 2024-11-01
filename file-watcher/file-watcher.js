@@ -11,6 +11,8 @@ function logEvent(tresc) {
 if (!fs.existsSync(logSciezka)) {
     fs.writeFileSync(logSciezka, '');
 }
+let lastEvent;
+let timer;
 fs.watch(sciezkaWatcher, (eventType, filename) => {
     if (filename) {
         if (filename === 'plikWatcher.log') {
@@ -19,11 +21,18 @@ fs.watch(sciezkaWatcher, (eventType, filename) => {
 
         if (eventType === 'rename') {
             lastEvent = `Dodano lub usunięto plik: ${filename}`;
-            logEvent(lastEvent)
         } else if (eventType === 'change') {
             lastEvent = `Zmiana w pliku: ${filename}`;
-            logEvent(lastEvent)
         }
+
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        timer = setTimeout(() => {
+            logEvent(lastEvent);
+            lastEvent = '';
+        }, 1000);
     }
 });
 
