@@ -18,9 +18,9 @@ rl.question("podaj swoje imię: ", (name) => {
                 age: age
             }
 
-            fs.writeFileSync("dane.json", JSON.stringify(daneUser))
-            
-            const dane = fs.readFileSync("dane.json", "utf8")
+            fs.writeFileSync("data-logger/dane.json", JSON.stringify(daneUser))
+
+            const dane = fs.readFileSync("data-logger/dane.json", "utf8")
             console.log("Odczytane dane: ", JSON.parse(dane))
 
             rl.close()
